@@ -2,7 +2,8 @@
   <div class="container">
     <a class="navbar-brand" href="#">Dating App</a>
 
-    <ul class="navbar-nav mr-auto">
+    <!--*ngIf checks if true or not -->
+    <ul class="navbar-nav mr-auto" *ngIf="loggerIn">
         <li class="nav-item">
           <a class="nav-link" href="#">Matches</a>
         </li>
@@ -12,11 +13,42 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Messages</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" (click)="logout()">Logout</a>
+        </li>
       </ul>
-      <form class="form-inline mt-2 mt-md-0" role="search">
-        <input class="form-control mr-sm-2" type="text" placeholder="Username">
-        <input class="form-control mr-sm-2" type="password" placeholder="Password">
+
+    <!--click will call logout method in nav componenets-->
+      <div class="dropdown" *ngIf="loggerIn" dropdown> <!--Drop down stuff is from BsDropdownModule in appmodule -->
+        <a href="#"
+           class="dropdown-toggle text-light" dropdownToggle>Welcome user</a>
+        <div class="dropdown-menu mt-3" *dropdownMenu>
+          <a href="#" class="dropdown-item">Edit Profile</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item" (click)="logout()">Logout</a>
+        </div>
+      </div>
+
+    <!-- hash-name-method #loginForm="ngForm" makes it an angular form.
+         ngSubmit will call login() method in component -->
+      <form *ngIf="!loggerIn" #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()" autocomplete="off">
+
+        <!--name = property we want to track-->
+        <!--[(ngModel)] tell what we want to bind it to-->
+        <input
+          name="username"
+          [(ngModel)]="model.username"
+          class="form-control mr-sm-2"
+          type="text"
+          placeholder="Username">
+        <input
+          name="password"
+          [(ngModel)]="model.password"
+          class="form-control mr-sm-2"
+          type="password"
+          placeholder="Password">
         <button class="btn btn-outline-success" type="submit">Login</button>
+
       </form>
     </div>
 </nav>
